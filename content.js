@@ -1,35 +1,35 @@
 console.log("Teachable UX Fix loaded");
 
-// Wait for the DOM to fully load
 const sidebar = document.querySelector("#courseSidebar");
 const topbar = document.querySelector(".lecture-left");
-console.table(sidebar, topbar)
 
-if (!sidebar || !topbar) console.error("Elements not found");
+if (!sidebar || !topbar) {
+  console.error("❌ Sidebar or topbar not found");
+}
 
-// 1. Hide the sidebar initially
-sidebar.style.display = "none";
-sidebar.dataset.visible = "false"; // Custom marker
+// Restore previous sidebar state or default to visible
+const savedState = localStorage.getItem("sidebarVisible");
+const sidebarVisible = savedState === null ? true : savedState === "true";
 
-// 2. Create the toggle button
+// Initial sidebar state
+sidebar.style.display = sidebarVisible ? "block" : "none";
+sidebar.dataset.visible = sidebarVisible ? "true" : "false";
+
+// Create toggle button
 const toggleBtn = document.createElement("button");
-toggleBtn.textContent = "Toggle Sidebar";
+toggleBtn.textContent = "☰"; // Your existing icon
 toggleBtn.id = "sidebar-toggle-btn";
-toggleBtn.style.marginLeft = "1rem";
-toggleBtn.style.padding = "6px 12px";
-toggleBtn.style.borderRadius = "4px";
-toggleBtn.style.border = "none";
-toggleBtn.style.cursor = "pointer";
-toggleBtn.style.background = "#4a90e2";
-toggleBtn.style.color = "#fff";
-toggleBtn.style.fontSize = "14px";
+toggleBtn.title = "Show or hide the sidebar";
+topbar.prepend(toggleBtn);
 
-// 3. Add button to topbar
-topbar.appendChild(toggleBtn);
-
-// 4. Toggle logic
+// Toggle behavior
 toggleBtn.addEventListener("click", () => {
   const isVisible = sidebar.dataset.visible === "true";
-  sidebar.style.display = isVisible ? "none" : "block";
-  sidebar.dataset.visible = isVisible ? "false" : "true";
+  const newState = !isVisible;
+
+  sidebar.style.display = newState ? "block" : "none";
+  sidebar.dataset.visible = newState ? "true" : "false";
+  localStorage.setItem("sidebarVisible", newState.toString());
+
+  console.log("Sidebar state updated:", newState);
 });
