@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Loom UX Fixer",
+  "name": "Teachable UX",
   "version": "1.0",
   "description": "Customize Teachable's interface for better usability.",
   "permissions": ["scripting", "activeTab"],
@@ -15,6 +15,11 @@
   "action": {
     "default_popup": "popup.html",
     "default_icon": "icon.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "teachable-ux@dani.matuko",
+      "strict_min_version": "109.0"
+    }
   }
 }
-
